@@ -25,13 +25,13 @@ def make_checkpoint(datei):
   return(res);
 
 #make residual tower of convolutional blocks
-def make_resnet(num_blocks=16, num_filters=64, num_outputs=1, d1=64, d2=64, word_size=4, ks=3,depth=5, reg_param=0.0001, final_activation='sigmoid'):
+def make_resnet(num_blocks=16, num_filters=32, num_outputs=1, d1=64, d2=64, word_size=4, ks=3,depth=5, reg_param=0.0001, final_activation='sigmoid'):
   #Input and preprocessing layers
   inp = Input(shape=(num_blocks * word_size * 2,));
   print(inp.shape)
   #rs = Reshape((2 * num_blocks, word_size))(inp);
-  rs = Reshape((2 , 64))(inp);
-
+  rs = Reshape((1 , 128))(inp);
+  num_filters = 128
   print(rs.shape)
   perm = Permute((2,1))(rs);
   print(perm.shape)
