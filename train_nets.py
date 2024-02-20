@@ -31,7 +31,7 @@ def make_resnet(num_blocks=16, num_filters=32, num_outputs=1, d1=64, d2=64, word
   print(inp.shape)
   rs = Reshape((2 * num_blocks, word_size))(inp);
   #rs = Reshape((2 , 64))(inp);
-  num_filters =4;
+  num_filters =64;
   print(rs.shape)
   perm = Permute((2,1))(rs);
   print(perm.shape)
