@@ -28,19 +28,15 @@ def make_checkpoint(datei):
 def make_resnet(num_blocks=16, num_filters=32, num_outputs=1, d1=64, d2=64, word_size=4, ks=3,depth=5, reg_param=0.0001, final_activation='sigmoid'):
   #Input and preprocessing layers
   inp = Input(shape=(16*4*2,));
-  print(inp.shape)
   #rs = Reshape((2 * num_blocks, word_size))(inp);
   rs = Reshape((2 , 64))(inp);
   num_filters = 64
-  print(rs.shape)
   perm = Permute((2,1))(rs);
-  print(perm.shape)
   #add a single residual layer that will expand the data to num_filters channels
   #this is a bit-sliced layer
   conv0 = Conv1D(num_filters, kernel_size=1, padding='same', kernel_regularizer=l2(reg_param))(perm);
   conv0 = BatchNormalization()(conv0);
   conv0 = Activation('relu')(conv0);
-  print(conv0.shape)
   #add residual blocks
   shortcut = conv0;
   for i in range(depth):
@@ -51,7 +47,6 @@ def make_resnet(num_blocks=16, num_filters=32, num_outputs=1, d1=64, d2=64, word
     conv2 = BatchNormalization()(conv2);
     conv2 = Activation('relu')(conv2);
     shortcut = Add()([shortcut, conv2]);
-    print(shortcut.shape)
   #add prediction head
   flat1 = Flatten()(shortcut);
   dense1 = Dense(d1,kernel_regularizer=l2(reg_param))(flat1);
